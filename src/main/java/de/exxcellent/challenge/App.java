@@ -24,15 +24,7 @@ public final class App {
      */
     public static void main(String... args) {
         try {
-            // TODO => Linux compatible?
-            // TODO => Code replicated!!!
-            String csvPath = App.class
-                    .getResource("weather.csv")
-                    .getPath()
-                    .substring(1); // Remove starting '/'
-
-            IDayService dayService = new DayCsvService(csvPath);
-
+            IDayService dayService = new DayCsvService();
             Optional<Day> dayWithSmallestTempSpread = dayService.getLargestSpread();
             if (dayWithSmallestTempSpread.isPresent()) {
                 System.out.printf("Day with smallest temperature spread : %s%n", dayWithSmallestTempSpread.get().getDay());
@@ -40,14 +32,7 @@ public final class App {
                 System.out.print("Day not found!");
             }
 
-            // TODO => Linux compatible?
-            csvPath = App.class
-                    .getResource("football.csv")
-                    .getPath()
-                    .substring(1); // Remove starting '/'
-
-            ITeamService teamService = new TeamCsvService(csvPath);
-
+            ITeamService teamService = new TeamCsvService();
             Optional<Team> teamWithSmallestGoalSpread = teamService.getMinDistance();
             if (teamWithSmallestGoalSpread.isPresent()) {
                 System.out.printf("Team with smallest goal spread       : %s%n", teamWithSmallestGoalSpread.get().getTeamName());
@@ -55,7 +40,7 @@ public final class App {
                 System.out.print("Team not found!");
             }
         } catch (IOException e) {
-            System.out.println("An error occurred while reading the csv file!");
+            System.out.println("An error occurred while reading the csv file! \n" + e.getMessage());
         }
     }
 }

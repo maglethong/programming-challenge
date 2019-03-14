@@ -15,14 +15,15 @@ import java.util.Optional;
 
 public class DayCsvService implements IDayService {
 
-    private final String csvPath;
-
-    public DayCsvService(String csvPath) {
-        this.csvPath = csvPath;
-    }
+    private static final String CSV_RESOURCE = "/de/exxcellent/challenge/weather.csv";
 
     @Override
     public Collection<Day> getAll() throws IOException {
+        String csvPath = this.getClass()
+                .getResource(CSV_RESOURCE)
+                .getPath()
+                .substring(1);
+
         Reader reader = Files.newBufferedReader(Paths.get(csvPath));
         CSVParser csvParser = new CSVParser(reader, CSVFormat.DEFAULT
                 .withFirstRecordAsHeader()

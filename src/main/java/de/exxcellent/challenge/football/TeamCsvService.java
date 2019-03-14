@@ -15,15 +15,16 @@ import java.util.Optional;
 
 public class TeamCsvService implements ITeamService {
 
-    private final String csvPath;
-
-    public TeamCsvService(String csvPath) {
-        this.csvPath = csvPath;
-    }
+    private static final String CSV_RESOURCE = "/de/exxcellent/challenge/football.csv";
 
     @Override
     // TODO => Duplicated code, maybe parent class for csv? -> worse readability + overhead
     public Collection<Team> getAll() throws IOException {
+        String csvPath = this.getClass()
+                .getResource(CSV_RESOURCE)
+                .getPath()
+                .substring(1);
+
         Reader reader = Files.newBufferedReader(Paths.get(csvPath));
         CSVParser csvParser = new CSVParser(reader, CSVFormat.DEFAULT
                 .withFirstRecordAsHeader()

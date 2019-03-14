@@ -35,26 +35,14 @@ public class AppTest {
 
     @Test
     public void dayServiceGetAllTest() throws IOException {
-        // TODO => Linux compatible?
-        String csvPath = this.getClass()
-                .getResource("weather.csv")
-                .getPath()
-                .substring(1); // Remove starting '/'
-
-        IDayService service = new DayCsvService(csvPath);
+        IDayService service = new DayCsvService();
         Collection<Day> days = service.getAll();
         assertTrue(days.size() > 0, "Didn't read file correctly");
     }
 
     @Test
     public void teamServiceGetAllTest() throws IOException {
-        // TODO => Linux compatible?
-        String csvPath = this.getClass()
-                .getResource("football.csv")
-                .getPath()
-                .substring(1); // Remove starting '/'
-
-        ITeamService service = new TeamCsvService(csvPath);
+        ITeamService service = new TeamCsvService();
         Collection<Team> teams = service.getAll();
         assertTrue(teams.size() > 0, "Didn't read file correctly");
     }
