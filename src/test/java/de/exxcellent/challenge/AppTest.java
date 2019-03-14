@@ -1,11 +1,11 @@
 package de.exxcellent.challenge;
 
-import de.exxcellent.challenge.football.Football;
-import de.exxcellent.challenge.football.FootballCsvService;
-import de.exxcellent.challenge.football.IFootballService;
-import de.exxcellent.challenge.weather.IWeatherService;
-import de.exxcellent.challenge.weather.Weather;
-import de.exxcellent.challenge.weather.WeatherCsvService;
+import de.exxcellent.challenge.football.Team;
+import de.exxcellent.challenge.football.TeamCsvService;
+import de.exxcellent.challenge.football.ITeamService;
+import de.exxcellent.challenge.weather.IDayService;
+import de.exxcellent.challenge.weather.Day;
+import de.exxcellent.challenge.weather.DayCsvService;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
@@ -34,28 +34,28 @@ public class AppTest {
     }
 
     @Test
-    public void weatherServiceGetAllTest() throws IOException {
+    public void dayServiceGetAllTest() throws IOException {
         // TODO => Linux compatible?
         String csvPath = this.getClass()
                 .getResource("weather.csv")
                 .getPath()
                 .substring(1); // Remove starting '/'
 
-        IWeatherService service = new WeatherCsvService(csvPath);
-        Collection<Weather> days = service.getAll();
+        IDayService service = new DayCsvService(csvPath);
+        Collection<Day> days = service.getAll();
         assertTrue(days.size() > 0, "Didn't read file correctly");
     }
 
     @Test
-    public void footballServiceGetAllTest() throws IOException {
+    public void teamServiceGetAllTest() throws IOException {
         // TODO => Linux compatible?
         String csvPath = this.getClass()
                 .getResource("football.csv")
                 .getPath()
                 .substring(1); // Remove starting '/'
 
-        IFootballService service = new FootballCsvService(csvPath);
-        Collection<Football> teams = service.getAll();
+        ITeamService service = new TeamCsvService(csvPath);
+        Collection<Team> teams = service.getAll();
         assertTrue(teams.size() > 0, "Didn't read file correctly");
     }
 

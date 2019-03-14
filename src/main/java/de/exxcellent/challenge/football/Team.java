@@ -9,7 +9,7 @@ import lombok.Setter;
 @Getter
 @AllArgsConstructor
 @NoArgsConstructor
-public class Football {
+public class Team {
     private String teamName;
     private int goals;
     private int goalsAllowed;

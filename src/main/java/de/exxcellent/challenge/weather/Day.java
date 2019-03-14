@@ -9,7 +9,7 @@ import lombok.Setter;
 @Setter
 @NoArgsConstructor
 @AllArgsConstructor
-public class Weather {
+public class Day {
     private int day;
     private float minTemp;
     private float maxTemp;

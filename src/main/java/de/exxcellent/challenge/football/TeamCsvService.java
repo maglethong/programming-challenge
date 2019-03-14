@@ -1,6 +1,5 @@
 package de.exxcellent.challenge.football;
 
-import de.exxcellent.challenge.weather.Weather;
 import org.apache.commons.csv.CSVFormat;
 import org.apache.commons.csv.CSVParser;
 import org.apache.commons.csv.CSVRecord;
@@ -14,17 +13,17 @@ import java.util.Collection;
 import java.util.List;
 import java.util.Optional;
 
-public class FootballCsvService implements IFootballService {
+public class TeamCsvService implements ITeamService {
 
     private final String csvPath;
 
-    public FootballCsvService(String csvPath) {
+    public TeamCsvService(String csvPath) {
         this.csvPath = csvPath;
     }
 
     @Override
     // TODO => Duplicated code, maybe parent class for csv?
-    public Collection<Football> getAll() throws IOException {
+    public Collection<Team> getAll() throws IOException {
         Reader reader = Files.newBufferedReader(Paths.get(csvPath));
         CSVParser csvParser = new CSVParser(reader, CSVFormat.DEFAULT
                 .withFirstRecordAsHeader()
@@ -33,22 +32,23 @@ public class FootballCsvService implements IFootballService {
                 .withDelimiter(',')
         );
 
-        List<Football> days = new ArrayList<>();
+        List<Team> days = new ArrayList<>();
         for (CSVRecord csvRecord : csvParser) {
             days.add(recordToFootball(csvRecord));
         }
         return days;
     }
 
+
     @Override
-    public Optional<Football> getMinDistance() throws IOException {
+    public Optional<Team> getMinDistance() throws IOException {
         return this.getAll()
                 .stream()
                 .reduce((a, b) -> a.getGoalDistance() < b.getGoalDistance() ? a : b);
     }
 
-    private Football recordToFootball(CSVRecord csvRecord) {
-        Football weather = new Football();
+    private Team recordToFootball(CSVRecord csvRecord) {
+        Team weather = new Team();
 
         weather.setTeamName(csvRecord.get("Team"));
         weather.setGoalsAllowed(Integer.parseInt(csvRecord.get("Goals Allowed")));

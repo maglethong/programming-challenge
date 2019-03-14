@@ -1,11 +1,11 @@
 package de.exxcellent.challenge;
 
-import de.exxcellent.challenge.football.Football;
-import de.exxcellent.challenge.football.FootballCsvService;
-import de.exxcellent.challenge.football.IFootballService;
-import de.exxcellent.challenge.weather.IWeatherService;
-import de.exxcellent.challenge.weather.Weather;
-import de.exxcellent.challenge.weather.WeatherCsvService;
+import de.exxcellent.challenge.football.Team;
+import de.exxcellent.challenge.football.TeamCsvService;
+import de.exxcellent.challenge.football.ITeamService;
+import de.exxcellent.challenge.weather.IDayService;
+import de.exxcellent.challenge.weather.Day;
+import de.exxcellent.challenge.weather.DayCsvService;
 
 import java.util.Optional;
 
@@ -30,9 +30,9 @@ public final class App {
                     .getPath()
                     .substring(1); // Remove starting '/'
 
-            IWeatherService weatherService = new WeatherCsvService(csvPath);
+            IDayService dayService = new DayCsvService(csvPath);
 
-            Optional<Weather> dayWithSmallestTempSpread = weatherService.getLargestSpread();
+            Optional<Day> dayWithSmallestTempSpread = dayService.getLargestSpread();
             if (dayWithSmallestTempSpread.isPresent()) {
                 System.out.printf("Day with smallest temperature spread : %s%n", dayWithSmallestTempSpread.get().getDay());
             } else {
@@ -45,9 +45,9 @@ public final class App {
                     .getPath()
                     .substring(1); // Remove starting '/'
 
-            IFootballService footballService = new FootballCsvService(csvPath);
+            ITeamService teamService = new TeamCsvService(csvPath);
 
-            Optional<Football> teamWithSmallestGoalSpread = footballService.getMinDistance();
+            Optional<Team> teamWithSmallestGoalSpread = teamService.getMinDistance();
             if (teamWithSmallestGoalSpread.isPresent()) {
                 System.out.printf("Team with smallest goal spread       : %s%n", teamWithSmallestGoalSpread.get().getTeamName());
             } else {

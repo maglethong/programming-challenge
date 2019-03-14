@@ -13,16 +13,16 @@ import java.util.Collection;
 import java.util.List;
 import java.util.Optional;
 
-public class WeatherCsvService implements IWeatherService {
+public class DayCsvService implements IDayService {
 
     private final String csvPath;
 
-    public WeatherCsvService(String csvPath) {
+    public DayCsvService(String csvPath) {
         this.csvPath = csvPath;
     }
 
     @Override
-    public Collection<Weather> getAll() throws IOException {
+    public Collection<Day> getAll() throws IOException {
         Reader reader = Files.newBufferedReader(Paths.get(csvPath));
         CSVParser csvParser = new CSVParser(reader, CSVFormat.DEFAULT
                 .withFirstRecordAsHeader()
@@ -31,7 +31,7 @@ public class WeatherCsvService implements IWeatherService {
                 .withDelimiter(',')
         );
 
-        List<Weather> days = new ArrayList<>();
+        List<Day> days = new ArrayList<>();
         for (CSVRecord csvRecord : csvParser) {
             days.add(recordToWeather(csvRecord));
         }
@@ -39,15 +39,15 @@ public class WeatherCsvService implements IWeatherService {
     }
 
     @Override
-    public Optional<Weather> getLargestSpread() throws IOException {
+    public Optional<Day> getLargestSpread() throws IOException {
         return this.getAll()
                 .stream()
                 .reduce((a, b) -> a.getTempSpread() > b.getTempSpread() ? a : b);
     }
 
 
-    private Weather recordToWeather(CSVRecord csvRecord) {
-        Weather weather = new Weather();
+    private Day recordToWeather(CSVRecord csvRecord) {
+        Day weather = new Day();
 
         weather.setDay(Integer.parseInt(csvRecord.get("Day")));
         weather.setMaxTemp(Float.parseFloat(csvRecord.get("MxT")));
