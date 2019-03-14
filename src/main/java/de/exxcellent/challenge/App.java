@@ -1,11 +1,12 @@
 package de.exxcellent.challenge;
 
+import de.exxcellent.challenge.football.Football;
+import de.exxcellent.challenge.football.FootballCsvService;
+import de.exxcellent.challenge.football.IFootballService;
 import de.exxcellent.challenge.weather.IWeatherService;
 import de.exxcellent.challenge.weather.Weather;
 import de.exxcellent.challenge.weather.WeatherCsvService;
 
-import java.io.IOException;
-import java.util.Collection;
 import java.util.Optional;
 
 /**
@@ -23,6 +24,7 @@ public final class App {
     public static void main(String... args) {
         try {
             // TODO => Linux compatible?
+            // TODO => Code replicated!!!
             String csvPath = App.class
                     .getResource("weather.csv")
                     .getPath()
@@ -34,11 +36,23 @@ public final class App {
             if (dayWithSmallestTempSpread.isPresent()) {
                 System.out.printf("Day with smallest temperature spread : %s%n", dayWithSmallestTempSpread.get().getDay());
             } else {
-                System.out.print("Day not found!");
+                System.out.printf("Day not found!");
             }
 
-            String teamWithSmallestGoalSpread = "A good team"; // Your goal analysis function call …
-            System.out.printf("Team with smallest goal spread       : %s%n", teamWithSmallestGoalSpread);
+            // TODO => Linux compatible?
+            csvPath = App.class
+                    .getResource("football.csv")
+                    .getPath()
+                    .substring(1); // Remove starting '/'
+
+            IFootballService footballService = new FootballCsvService(csvPath);
+
+            Optional<Football> teamWithSmallestGoalSpread = footballService.getMinDistance();
+            if (teamWithSmallestGoalSpread.isPresent()) {
+                System.out.printf("Team with smallest goal spread       : %s%n", teamWithSmallestGoalSpread.get().getTeamName());
+            } else {
+                System.out.printf("Team not found!");
+            }
         } catch (Exception ignored) {
             // TODO Treat exception
         }
