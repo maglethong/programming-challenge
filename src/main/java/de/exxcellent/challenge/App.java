@@ -4,6 +4,8 @@ import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Collections;
 import java.util.List;
+import java.util.stream.Collectors;
+
 import static java.util.Arrays.asList;
 
 /**
@@ -37,7 +39,10 @@ public final class App {
      * @param args The CLI arguments passed
      */
     public static void main(String... args) {
-        List<Object> result = mergeNestedLists(EXAMPLE_NESTED_LIST); // yourFunction(EXAMPLE_NESTED_LIST)
+        List<Integer> result = mergeNestedLists(EXAMPLE_NESTED_LIST)
+                .stream()
+                .map(a -> (Integer) a)
+                .collect(Collectors.toList());
 
         System.out.print(EXAMPLE_NESTED_LIST);
         System.out.print(" -> ");
