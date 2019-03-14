@@ -1,5 +1,6 @@
 package de.exxcellent.challenge.weather;
 
+import de.exxcellent.challenge.csv.AbstractCsvService;
 import org.apache.commons.csv.CSVFormat;
 import org.apache.commons.csv.CSVParser;
 import org.apache.commons.csv.CSVRecord;
@@ -13,30 +14,13 @@ import java.util.Collection;
 import java.util.List;
 import java.util.Optional;
 
-public class DayCsvService implements IDayService {
+public class DayCsvService extends AbstractCsvService<Day> implements IDayService {
 
     private static final String CSV_RESOURCE = "/de/exxcellent/challenge/weather.csv";
 
     @Override
     public Collection<Day> getAll() throws IOException {
-        String csvPath = this.getClass()
-                .getResource(CSV_RESOURCE)
-                .getPath()
-                .substring(1);
-
-        Reader reader = Files.newBufferedReader(Paths.get(csvPath));
-        CSVParser csvParser = new CSVParser(reader, CSVFormat.DEFAULT
-                .withFirstRecordAsHeader()
-                .withIgnoreHeaderCase()
-                .withTrim()
-                .withDelimiter(',')
-        );
-
-        List<Day> days = new ArrayList<>();
-        for (CSVRecord csvRecord : csvParser) {
-            days.add(recordToWeather(csvRecord));
-        }
-        return days;
+        return getAll(CSV_RESOURCE);
     }
 
     @Override
@@ -46,8 +30,8 @@ public class DayCsvService implements IDayService {
                 .reduce((a, b) -> a.getTempSpread() > b.getTempSpread() ? a : b);
     }
 
-
-    private Day recordToWeather(CSVRecord csvRecord) {
+    @Override
+    protected Day recordToEntity(CSVRecord csvRecord) {
         Day weather = new Day();
 
         weather.setDay(Integer.parseInt(csvRecord.get("Day")));
