@@ -6,12 +6,12 @@ import org.apache.commons.csv.CSVRecord;
 
 import java.io.IOException;
 import java.io.Reader;
-import java.net.URL;
 import java.nio.file.Files;
 import java.nio.file.Paths;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
+import java.util.Optional;
 
 public class WeatherCsvService implements IWeatherService {
 
@@ -37,6 +37,14 @@ public class WeatherCsvService implements IWeatherService {
         }
         return days;
     }
+
+    @Override
+    public Optional<Weather> getLargestSpread() throws IOException {
+        return this.getAll()
+                .stream()
+                .reduce((a, b) -> a.getTempSpread() > b.getTempSpread() ? a : b);
+    }
+
 
     private Weather recordToWeather(CSVRecord csvRecord) {
         Weather weather = new Weather();
