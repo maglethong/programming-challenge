@@ -1,5 +1,7 @@
 package de.exxcellent.challenge;
 
+import java.util.ArrayList;
+import java.util.Collection;
 import java.util.Collections;
 import java.util.List;
 import static java.util.Arrays.asList;
@@ -16,13 +18,26 @@ public final class App {
             asList(1, asList(2, 3), asList(4, asList(5, 6)))
     );
 
+    public static List<Object> mergeNestedLists(List<Object> list) {
+        List<Object> result = new ArrayList<>();
+
+        for (Object item : list) {
+            if (item instanceof List){
+                result.addAll(mergeNestedLists((List<Object>) item));
+            } else {
+                result.add(item);
+            }
+        }
+
+        return result;
+    }
 
     /**
      * This is the main entry method of your program.
      * @param args The CLI arguments passed
      */
     public static void main(String... args) {
-        List<Integer> result = asList(-1, -2); // yourFunction(EXAMPLE_NESTED_LIST)
+        List<Object> result = mergeNestedLists(EXAMPLE_NESTED_LIST); // yourFunction(EXAMPLE_NESTED_LIST)
 
         System.out.print(EXAMPLE_NESTED_LIST);
         System.out.print(" -> ");
