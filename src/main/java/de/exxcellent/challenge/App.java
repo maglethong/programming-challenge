@@ -7,6 +7,7 @@ import de.exxcellent.challenge.weather.IDayService;
 import de.exxcellent.challenge.weather.Day;
 import de.exxcellent.challenge.weather.DayCsvService;
 
+import java.io.IOException;
 import java.util.Optional;
 
 /**
@@ -36,7 +37,7 @@ public final class App {
             if (dayWithSmallestTempSpread.isPresent()) {
                 System.out.printf("Day with smallest temperature spread : %s%n", dayWithSmallestTempSpread.get().getDay());
             } else {
-                System.out.printf("Day not found!");
+                System.out.print("Day not found!");
             }
 
             // TODO => Linux compatible?
@@ -51,10 +52,10 @@ public final class App {
             if (teamWithSmallestGoalSpread.isPresent()) {
                 System.out.printf("Team with smallest goal spread       : %s%n", teamWithSmallestGoalSpread.get().getTeamName());
             } else {
-                System.out.printf("Team not found!");
+                System.out.print("Team not found!");
             }
-        } catch (Exception ignored) {
-            // TODO Treat exception
+        } catch (IOException e) {
+            System.out.println("An error occurred while reading the csv file!");
         }
     }
 }
