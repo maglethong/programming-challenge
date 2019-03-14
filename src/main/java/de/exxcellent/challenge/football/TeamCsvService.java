@@ -22,7 +22,7 @@ public class TeamCsvService implements ITeamService {
     }
 
     @Override
-    // TODO => Duplicated code, maybe parent class for csv?
+    // TODO => Duplicated code, maybe parent class for csv? -> worse readability + overhead
     public Collection<Team> getAll() throws IOException {
         Reader reader = Files.newBufferedReader(Paths.get(csvPath));
         CSVParser csvParser = new CSVParser(reader, CSVFormat.DEFAULT
