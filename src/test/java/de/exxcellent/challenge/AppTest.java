@@ -1,5 +1,8 @@
 package de.exxcellent.challenge;
 
+import de.exxcellent.challenge.football.Football;
+import de.exxcellent.challenge.football.FootballCsvService;
+import de.exxcellent.challenge.football.IFootballService;
 import de.exxcellent.challenge.weather.IWeatherService;
 import de.exxcellent.challenge.weather.Weather;
 import de.exxcellent.challenge.weather.WeatherCsvService;
@@ -41,6 +44,19 @@ public class AppTest {
         IWeatherService service = new WeatherCsvService(csvPath);
         Collection<Weather> days = service.getAll();
         assertTrue(days.size() > 0, "Didn't read file correctly");
+    }
+
+    @Test
+    public void footballServiceGetAllTest() throws IOException {
+        // TODO => Linux compatible?
+        String csvPath = this.getClass()
+                .getResource("football.csv")
+                .getPath()
+                .substring(1); // Remove starting '/'
+
+        IFootballService service = new FootballCsvService(csvPath);
+        Collection<Football> teams = service.getAll();
+        assertTrue(teams.size() > 0, "Didn't read file correctly");
     }
 
     @Test
